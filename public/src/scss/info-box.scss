@@ -1,0 +1,44 @@
+@mixin info_box_color($color_name, $bg_color) {
+    &__item--#{$color_name} {
+        background-color: $bg_color;
+    }
+}
+
+.info-box {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+    &__item {
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+    }
+
+    @include info_box_color('green', var(--green));
+    @include info_box_color('sky-blue', var(--sky-blue));
+    @include info_box_color('blue', var(--blue));
+
+    &__data {
+        padding: 15px;
+        flex: 1;
+
+        h4 {
+            font-family: 'roboto-black';
+            color: #fff;
+        }
+
+        p {
+            color: #ffffffc2;
+            font-size: 17px;
+        }
+    }
+
+    &__icon {
+        flex-basis: 80px;
+        padding: 15px;
+        padding-left: 8px;
+        color: #ffffff73;
+        text-align: right;
+    }
+}

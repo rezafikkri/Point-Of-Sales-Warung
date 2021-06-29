@@ -1,0 +1,43 @@
+li.dropdown {
+    position: relative;
+}
+
+a.dropdown-toggle::after {
+    content: "";
+    border-width: 5px;
+    border-style: solid;
+    border-color: currentcolor transparent transparent transparent;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+ul.dropdown-menu {
+    position: absolute;
+    z-index: 1;
+    top: 130%;
+    min-width: 10rem;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+
+    a {
+        display: block;
+        padding: 4px 16px;
+    }
+
+    li hr {
+        margin: 8px 0;
+        background-color: #c8c8c8;
+    }
+}
+
+ul.dropdown-menu--end {
+    right: 0;
+}
+
+ul.dropdown-menu--start {
+    left: 0;
+}
+

@@ -1,0 +1,31 @@
+.header {
+    padding: 20px 0;
+
+    h4 {
+        font-family: 'roboto-medium';
+        color: #acacac;
+        font-size: 1.4rem;
+    }
+
+    .input-group input, .form-select {
+        border-color: var(--border-color);
+
+        &:focus {
+            border-color: var(--blue);
+        }
+    }
+
+    .form-select {
+        width: auto;
+    }
+
+    @media (max-width: 575.98px) {
+        &--product .input-group, &--transaction .input-group {
+            width: 100%;
+        }
+
+        &--cashier .input-group {
+            flex: 1 1 auto;
+        }
+    }
+}

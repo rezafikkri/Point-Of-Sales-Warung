@@ -1,0 +1,23 @@
+{
+  "name": "point-of-sales-warung",
+  "version": "1.0.0",
+  "description": "Point of sales yang dibuat khsusus untuk warung",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "flatpickr": "^4.6.9"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "rollup": "^2.52.3",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "scripts": {
+    "build": "npx rollup --config"
+  },
+  "author": "Reza Sariful Fikri",
+  "license": "GPL-3.0"
+}

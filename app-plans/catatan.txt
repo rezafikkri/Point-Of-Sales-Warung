@@ -1,0 +1,20 @@
+# CATATAN
+
+# Need to change
+1. refactor: query get products for cashier page
+2. refactor: UI for product item
+
+5. refactor: create constant timestamp three days ago
+6. refactor: make when rollback transaction, check is rolling back a transaction or a transaction in backend
+8. fix: not change date-range dataset value when data is not exists
+9. refactor: add form message for user form password
+
+[now] 9. refactor: change success property to status in json response for ajax request, refactor code structure, change variabel name to camelCase and method name and make test
+
+10. refactor: test application for after update codeigniter version
+11. fix: name for file backup transaction when rollback transaction
+12. refactor: remove option 'Riwayat transaksi' in rollback transaction modal
+13. reafactor: error handling
+
+# Next Fitur
+1. Tambahkan keterangan dipesan pada product item halaman cashier

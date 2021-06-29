@@ -1,0 +1,20 @@
+.chart {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+
+    &__header {
+        padding: 15px;
+        padding-bottom: 0;
+
+        h5 {
+            font-family: 'roboto-medium';
+            color: var(--gray);
+        }
+
+        p {
+            color: var(--gray);
+            font-size: 17px;
+        }
+    }
+}

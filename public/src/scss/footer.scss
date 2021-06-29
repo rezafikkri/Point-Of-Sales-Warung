@@ -1,0 +1,35 @@
+.footer {
+    padding: 8px 0;
+    border-top: 1px solid var(--border-color);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li, a {
+        color: #999999;
+        font-size: 15.5px;
+    }
+
+    li {
+        display: inline-block;
+        padding-right: 16px;
+
+        @media (max-width: 291px) {
+            padding-bottom: 8px;
+        }
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            color: var(--blue);
+        }
+    }
+}
