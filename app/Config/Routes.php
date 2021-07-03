@@ -29,8 +29,12 @@ $routes->setAutoRoute(false);
  * Route Definitions
  * --------------------------------------------------------------------
  */
+$routes->group('admin', ['filter' => 'accessRights:admin'], function($routes)
+{
+    $routes->get('', 'Admin::index');
+});
 
-$routes->post('sign_in', 'SignIn::signIn');
+$routes->post('sign_in', 'SignIn::index');
 $routes->get('sign_out', 'SignOut::index');
 
 // Default Route, if each route above not match

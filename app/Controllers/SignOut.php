@@ -1,7 +1,7 @@
 <?php namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\UserModel;
+use App\Models\UsersModel;
 
 class SignOut extends Controller
 {
@@ -12,8 +12,8 @@ class SignOut extends Controller
         // if sign in
         if($session->has('posw_sign_in_status')) {
             // update last sign in
-            $model = new UserModel;
-            $model->update($_SESSION['posw_user_id'], ['sign_in_terakhir'=>date('Y-m-d H:i:s')]);
+            $model = new UsersModel;
+            $model->update($_SESSION['posw_user_id'], ['last_sign_in' => date('Y-m-d H:i:s')]);
 
             // destroy session
             $session->destroy();

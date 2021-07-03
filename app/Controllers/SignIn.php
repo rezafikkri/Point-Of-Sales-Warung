@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use App\Models\UsersModel;
+use CodeIgniter\Config\Factories;
 
 class SignIn extends BaseController
 {
@@ -10,10 +11,14 @@ class SignIn extends BaseController
 
     public function index()
     {
+        if ($this->request->getMethod() === 'post') {
+            return $this->signin();
+        }
+
         return view('signin');
     }
 
-    public function signIn()
+    private function signIn()
     {
         $session = session();
 
@@ -30,28 +35,24 @@ class SignIn extends BaseController
             ]
         ])) {
             // set validation error messages to flash session
-            $session->setFlashData('form_errors', $this->addDelimiterMessages(
-                '<small class="form-message form-message--danger">',
-                '</small>',
-                $this->validator->getErrors()
-            ));
+            $session->setFlashData('errors', $this->addDelimiterMessages($this->validator->getErrors()));
             return redirect()->back()->withInput();
         }
 
-        $model = new UserModel;
+        $userModel = new UsersModel;
 
         $username = $this->request->getPost('username', FILTER_SANITIZE_STRING);
         $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
-        $data_user_sign_in = $model->getDataUserSignIn($username);
+        $userSignIn = $userModel->getUserSignIn($username);
 
-        if($data_user_sign_in !== null) {
+        if($userSignIn !== null) {
             // if sign in success
-            if(password_verify($password, $data_user_sign_in['password']) === true) {
+            if(password_verify($password, $userSignIn['password']) === true) {
                 $session->set([
                     'posw_sign_in_status' => true,
-                    'posw_user_id' => $data_user_sign_in['pengguna_id'],
-                    'posw_user_level' => $data_user_sign_in['tingkat'],
-                    'posw_user_full_name' => $data_user_sign_in['nama_lengkap']
+                    'posw_user_id' => $userSignIn['user_id'],
+                    'posw_user_level' => $userSignIn['level'],
+                    'posw_user_full_name' => $userSignIn['full_name']
                 ]);
 
                 // if user level is admin
@@ -62,20 +63,12 @@ class SignIn extends BaseController
             }
 
             // if password is wrong
-            $session->setFlashData('form_errors', $this->addDelimiterMessages(
-                '<small class="form-message form-message--danger">',
-                '</small>',
-                ['password' => 'Password salah.']
-            ));
+            $session->setFlashData('errors', $this->addDelimiterMessages(['password' => 'Password salah.']));
             return redirect()->back();
         }
 
         // if username not found
-        $session->setFlashData('form_errors', $this->addDelimiterMessages(
-            '<small class="form-message form-message--danger">',
-            '</small>',
-            ['username' => 'Username tidak ditemukan.']
-        ));
+        $session->setFlashData('errors', $this->addDelimiterMessages(['username' => 'Username tidak ditemukan.']));
         return redirect()->back();
     }
 }

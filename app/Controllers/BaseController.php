@@ -6,20 +6,20 @@ use CodeIgniter\Controller;
 
 class BaseController extends Controller
 {
-    protected function addDelimiterMessages(
-        string $openDelimiter,
-        string $closeDelimiter,
-        array $messages,
-        array $ignore = null
-    ): array {
+    // property for add delimiter messages
+    protected $openDelimiter = '<small class="form-message form-message--danger">';
+    protected $closeDelimiter = '</small>';
+    protected $ignore;
+
+    protected function addDelimiterMessages(array $messages): array {
         $newMessages = [];
 
         foreach ($messages as $key => $value) {
             // if ignore not null and key exists in ignore array
-            if ($ignore && in_array($key, $ignore)) {
+            if ($this->ignore && in_array($key, $this->ignore)) {
                 $newMessages[$key] = $value;
             } else {
-                $newMessages[$key] = $openDelimiter.$value.$closeDelimiter;
+                $newMessages[$key] = $this->openDelimiter.$value.$this->closeDelimiter;
             }
         }
 

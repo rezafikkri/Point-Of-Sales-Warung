@@ -8,7 +8,7 @@ class AccessRights implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $session = \Config\Services::session();
+        $session = session();
 
         // if not sign in
         if(!$session->has('posw_sign_in_status')) {
