@@ -18,7 +18,9 @@ class CategoryProductTest extends FeatureTestCase
     // admin sign in session data
     private $adminAccessRights = [
         'posw_sign_in_status' => true,
-        'posw_user_level' => 'admin'
+        'posw_user_id' => '37e46a3d-bd18-440e-a473-daa6ea059b75',
+        'posw_user_level' => 'admin',
+        'posw_user_full_name' => 'Reza Sariful Fikri'
     ];
 
     public function testGetCategoryProductButNotSignedIn()
@@ -40,12 +42,12 @@ class CategoryProductTest extends FeatureTestCase
         $result->assertRedirectTo('/sign_out');
     }
 
-    public function testGetCategoryProduct()
+    public function testGetCategoryProductButNotDataInDb()
     {
         $result = $this->withSession($this->adminAccessRights)->get('/admin/kategori_produk');
 
         $result->assertOK();
-        $result->assertSee('Kategori Produk', 'title');
+        $result->assertSee('Kategori Produk . POSW', 'title');
         $result->assertSee('Kategori produk tidak ada.', 'td');
     }
 }
