@@ -19,7 +19,10 @@ class Filters extends BaseConfig
 		'csrf'     => CSRF::class,
 		'toolbar'  => DebugToolbar::class,
 		'honeypot' => Honeypot::class,
-        'accessRights' => \App\Filters\AccessRights::class,
+        'accessRights' => [
+            CSRF::class,
+            \App\Filters\AccessRights::class
+        ],
         'hasSignedIn' => \App\Filters\HasSignedIn::class
 	];
 

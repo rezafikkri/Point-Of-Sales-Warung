@@ -1,0 +1,52 @@
+Algoritma READ KATEGORI PRODUK
+[ Controller:index ]
+1. Ambil kategori produk di db, dengan urutan kategori terbaru sampai terlama
+[ View ]
+2. Jika kategori produk ada, maka tampil kategori produk pada table
+3. Jika kategori produk tidak ada, maka tampil pesan bahwa kategori produk tidak ada
+
+
+Algoritma CREATE KATEGORI PRODUK
+[ Controller:createCategoryProduct ]
+1. Jika method = post
+    1.1 Maka validasi data kategori produk yang dikirim
+    1.2 Jika data kategori produk lolos validasi, maka simpan kategori produk ke database, dan redirect ke home page kategori produk
+    1.3 Jika tidak lolos validasi, maka tambahkan pesan error ke flash session lalu redirect ke halaman sebelumnya,
+        dengan data kategori produk yang dikirim sebelumnya
+2. Jika method = get, maka tampilkan form create kategori produk
+[ View ]
+3. Jika pesan error ada, maka tampil pesan error
+4. Jika input lama(data kategori produk yang dikirim sebelumnya) ada, maka tampil input lama
+
+
+Algoritma UPDATE KATEGORI PRODUK
+[ Controller:updateCategoryProduct ]
+1. Jika method = post
+    1.1 Maka validasi data kategori produk yang dikirim
+    1.2 Jika data kategori produk lolos validasi,
+        1.2.1 Update kategori produk di database dan handel kemungkinan error menggunakan blok try catch
+        1.2.2 Jika update sukses, maka buat pesan sukses dan redirect ke halaman update kategori produk
+        1.2.3 Jika update gagal, maka tambah pesan error ke flash session dan redirect ke halaman update kategori produk
+    1.3 Jika tidak lolos validasi, maka tambah pesan error ke flash session dan redirect ke halaman update kategori produk
+2. Jika method = get
+    2.1 Select data kategori produk di database berdasarkan kategori produk id yang terdapat pada url dan handel kemungkinan error menggunakan blok try catch
+    2.2 Jika ambil data sukses, maka data kategori produk = data hasil select
+    2.3 Jika ambil data gagal atau data tidak ada, maka data kategori produk = null
+    2.3 Tampilkan halaman update kategori produk
+[ View ]
+3. Jika pesan error ada, maka tampil pesan error
+4. Jika pesan suskes ada, maka tampil pesan sukses
+5. Jika data kategori yang mau di update ada, maka tampil data kategori
+
+
+Algoritma DELETE KATEGORI PRODUK
+[ View ]
+1. Jika icon delete pada salah satu kategori produk di klik, maka lakukan ajax untuk delete kategori serta kirimkan data kategori id dan csrf token
+2. Jika proses ajax selesai
+    2.1 Jika csrf token ada, maka update csrf token di tag table
+    2.2 Jika delete sukses, maka delete data kategori di table
+    2.3 Jika delete gagal, maka tampil pesan error
+[ Controller:deleteCategoryProduct ]
+3. Delete kategori produk di database berdasarkan kategori id yang dikirim dan handel kemungkinan error menggunakan blok try catch
+4. Jika delete sukses, maka return pesan sukses dan csrf token
+5. Jika delete gagal, maka return pesan error, status = fail dan csrf token
