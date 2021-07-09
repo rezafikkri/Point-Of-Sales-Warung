@@ -33,6 +33,7 @@ $routes->group('admin', ['filter' => 'accessRights:admin'], function($routes)
 {
     $routes->get('', 'Admin::index');
     $routes->get('kategori_produk', 'CategoryProducts::index');
+    $routes->match(['get', 'post'], 'buat_kategori_produk', 'CategoryProducts::createCategoryProduct');
 });
 
 $routes->post('sign_in', 'SignIn::index');

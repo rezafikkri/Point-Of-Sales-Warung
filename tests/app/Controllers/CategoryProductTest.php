@@ -50,4 +50,57 @@ class CategoryProductTest extends FeatureTestCase
         $result->assertSee('Kategori Produk . POSW', 'title');
         $result->assertSee('Kategori produk tidak ada.', 'td');
     }
+
+    public function testGetCreateCategoryProduct()
+    {
+        $result = $this->withSession($this->adminAccessRights)->get('/admin/buat_kategori_produk');
+
+        $result->assertOK();
+        $result->assertSee('Buat Kategori Produk . POSW', 'title');
+    }
+
+    public function testPostCreateCategoryProduct()
+    {
+        $result = $this->withSession($this->adminAccessRights)->post('/admin/buat_kategori_produk', [
+            'category_product_name' => 'Mie ayam'
+        ]);
+
+        $result->assertOK();
+        $result->assertRedirectTo('/admin/kategori_produk');
+
+        $criteria = [
+            'category_product_name' => 'Mie ayam'
+        ];
+        $this->seeInDatabase('category_products', $criteria);
+    }
+
+    /**
+     * @depends testPostCreateCategoryProduct
+     */
+    public function testGetCategoryProductWithDataInDb()
+    {
+        $result = $this->withSession($this->adminAccessRights)->get('/admin/kategori_produk');
+
+        $result->assertOK();
+        $result->assertSee('Kategori Produk . POSW', 'title');
+        $result->assertDontSee('Kategori produk tidak ada.', 'td');
+    }
+
+    public function testPostCreateCategoryProductButNotSendCategoryProductName()
+    {
+        $result = $this->withSession($this->adminAccessRights)->post('/admin/buat_kategori_produk', [
+            'category_product_name' => 'Minyak sanco'
+        ]);
+
+        $result->assertOK();
+        $result->assertRedirectTo('/admin/buat_kategori_produk');
+        $result->assertSessionHas('errors', [
+            'category_product_name' => '<small class="form-message form-message--danger">Nama Kategori Produk tidak boleh kosong!</small>'
+        ]);
+
+        $criteria = [
+            'category_product_name' => 'Minyak sanco'
+        ];
+        $this->dontSeeInDatabase('category_products', $criteria);
+    }
 }
