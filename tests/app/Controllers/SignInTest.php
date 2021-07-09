@@ -78,12 +78,9 @@ class SignInTest extends FeatureTestCase
 
         $result->assertOK();
         $result->assertRedirectTo('/');
-        $result->assertSessionHas(
-            'errors',
-            [
-                'username' => '<small class="form-message form-message--danger">Username tidak ditemukan.</small>'
-            ]
-        );
+        $result->assertSessionHas('errors', [
+            'username' => '<small class="form-message form-message--danger">Username tidak ditemukan.</small>'
+        ]);
     }
 
     public function testPostSignInWithInvalidPassword()
@@ -95,12 +92,9 @@ class SignInTest extends FeatureTestCase
 
         $result->assertOK();
         $result->assertRedirectTo('/');
-        $result->assertSessionHas(
-            'errors',
-            [
-                'password' => '<small class="form-message form-message--danger">Password salah.</small>'
-            ]
-        );
+        $result->assertSessionHas('errors', [
+            'password' => '<small class="form-message form-message--danger">Password salah.</small>'
+        ]);
     }
 
     public function testPostSignInWithoutSendPasswordButSendUsername()
@@ -111,12 +105,9 @@ class SignInTest extends FeatureTestCase
 
         $result->assertOK();
         $result->assertRedirectTo('/');
-        $result->assertSessionHas(
-            'errors',
-            [
-                'password' => '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
-            ]
-        );
+        $result->assertSessionHas('errors', [
+            'password' => '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
+        ]);
     }
 
     public function testPostSignInWithoutSendUsernamePassword()
@@ -125,12 +116,9 @@ class SignInTest extends FeatureTestCase
 
         $result->assertOK();
         $result->assertRedirectTo('/');
-        $result->assertSessionHas(
-            'errors',
-            [
-                'username' => '<small class="form-message form-message--danger">Username tidak boleh kosong!</small>',
-                'password' => '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
-            ]
-        );
+        $result->assertSessionHas('errors', [
+            'username' => '<small class="form-message form-message--danger">Username tidak boleh kosong!</small>',
+            'password' => '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
+        ]);
     }
 }
