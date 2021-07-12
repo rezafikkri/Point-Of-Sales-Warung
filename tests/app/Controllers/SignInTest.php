@@ -77,10 +77,11 @@ class SignInTest extends FeatureTestCase
         ]);
 
         $result->assertOK();
-        $result->assertRedirectTo('/');
-        $result->assertSessionHas('errors', [
-            'username' => '<small class="form-message form-message--danger">Username tidak ditemukan.</small>'
-        ]);
+        $result->assertRedirect();
+        $this->assertSame(
+            $_SESSION['errors']['username'],
+            '<small class="form-message form-message--danger">Username tidak ditemukan.</small>'
+        );
     }
 
     public function testPostSignInWithInvalidPassword()
@@ -91,34 +92,44 @@ class SignInTest extends FeatureTestCase
         ]);
 
         $result->assertOK();
-        $result->assertRedirectTo('/');
-        $result->assertSessionHas('errors', [
-            'password' => '<small class="form-message form-message--danger">Password salah.</small>'
-        ]);
+        $result->assertRedirect();
+        $this->assertSame(
+            $_SESSION['errors']['password'],
+            '<small class="form-message form-message--danger">Password salah.</small>'
+        );
     }
 
     public function testPostSignInWithoutSendPasswordButSendUsername()
     {
         $result = $this->post('/sign_in', [
-            'username' => 'reza'
+            'username' => 'reza',
+            'password' => ''
         ]);
 
         $result->assertOK();
-        $result->assertRedirectTo('/');
-        $result->assertSessionHas('errors', [
-            'password' => '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
-        ]);
+        $result->assertRedirect();
+        $this->assertSame(
+            $_SESSION['errors']['password'],
+            '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
+        );
     }
 
     public function testPostSignInWithoutSendUsernamePassword()
     {
-        $result = $this->post('/sign_in');
+        $result = $this->post('/sign_in', [
+            'username' => '',
+            'password' => ''
+        ]);
 
         $result->assertOK();
-        $result->assertRedirectTo('/');
-        $result->assertSessionHas('errors', [
-            'username' => '<small class="form-message form-message--danger">Username tidak boleh kosong!</small>',
-            'password' => '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
-        ]);
+        $result->assertRedirect();
+        $this->assertSame(
+            $_SESSION['errors']['username'],
+            '<small class="form-message form-message--danger">Username tidak boleh kosong!</small>'
+        );
+        $this->assertSame(
+            $_SESSION['errors']['password'],
+            '<small class="form-message form-message--danger">Password tidak boleh kosong!</small>'
+        );
     }
 }
