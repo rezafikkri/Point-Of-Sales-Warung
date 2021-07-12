@@ -25,35 +25,39 @@ class CategoryProducts extends BaseController
 
     public function createCategoryProduct()
     {
+        if ($this->request->getMethod() === 'post') {
+            return $this->insertCategoryProductToDB();
+        }
+
         $data['title'] = 'Buat Kategori Produk . POSW';
         $data['page'] = 'buat_kategori_produk';
 
-        return view('category-product/create_category_product', $data);
+        return view('category-products/create_category_product', $data);
     }
 
-    public function saveCategoryProductToDB()
+    private function insertCategoryProductToDB()
     {
         if(!$this->validate([
             'category_product_name' => [
                 'label' => 'Nama Kategori Produk',
                 'rules' => 'required|max_length[20]',
-                'errors' => $this->generateIndoErrorMessages(['required','max_length'])
+                'errors' => $this->createIndoErrorMessages(['required', 'max_length'])
             ]
         ])) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
-                '<small class="form-message form-message--danger">',
-                '</small>',
-                $this->validator->getErrors()
-            ));
-
+            $this->session->setFlashData('errors', $this->addDelimiterMessages($this->validator->getErrors()));
             return redirect()->back()->withInput();
         }
 
+        $createdAt = date('Y-m-d H:i:s');
+        /*
+         * in production, if insert success will be return id from new item. if fail will be return false
+         */
         $this->model->insert([
-            'kategori_produk_id' => generate_uuid(),
-            'nama_kategori_produk' => $this->request->getPost('category_product_name', FILTER_SANITIZE_STRING),
-            'waktu_buat' => date('Y-m-d H:i:s')
+            'category_product_id' => generate_uuid(),
+            'category_product_name' => $this->request->getPost('category_product_name', FILTER_SANITIZE_STRING),
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt
         ]);
         return redirect()->to('/admin/kategori_produk');
     }
@@ -80,11 +84,7 @@ class CategoryProducts extends BaseController
             ]
         ])) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
-                '<small class="form-message form-message--danger">',
-                '</small>',
-                $this->validator->getErrors()
-            ));
+            $this->session->setFlashData('form_errors', $this->addDelimiterMessage($this->validator->getErrors()));
             return redirect()->back();
         }
 
@@ -95,7 +95,7 @@ class CategoryProducts extends BaseController
             'waktu_buat' => date('Y-m-d H:i:s')
         ])) {
             // make success message
-            $this->session->setFlashData('form_success', $this->setDelimiterMessages(
+            $this->session->setFlashData('form_success', $this->addDelimiterMessage(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_category_product' => 'Kategori produk telah diperbaharui.']

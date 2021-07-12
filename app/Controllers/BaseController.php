@@ -39,16 +39,16 @@ class BaseController extends Controller
                     $messages = array_merge($messages, [$rule => '{field} harus salah satu dari: {param}!']);
                     break;
                 case 'min_length':
-                    $messages = array_merge($messages, [$rules[$i] => '{field} paling sedikit {param} karakter!']);
+                    $messages = array_merge($messages, [$rule => '{field} paling sedikit {param} karakter!']);
                     break;
                 case 'max_length':
-                    $messages = array_merge($messages, [$rules[$i] => '{field} tidak bisa melebihi {param} karakter.']);
+                    $messages = array_merge($messages, [$rule => '{field} tidak bisa melebihi {param} karakter.']);
                     break;
                 case 'is_unique':
-                    $messages = array_merge($messages, [$rules[$i] => '{field} sudah ada.']);
+                    $messages = array_merge($messages, [$rule => '{field} sudah ada.']);
                     break;
                 case 'integer':
-                    $messages = array_merge($messages, [$rules[$i] => '{field} harus berupa angka dan tanpa desimal.']);
+                    $messages = array_merge($messages, [$rule => '{field} harus berupa angka dan tanpa desimal.']);
                     break;
             }
         }
