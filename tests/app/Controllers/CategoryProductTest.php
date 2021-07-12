@@ -89,14 +89,16 @@ class CategoryProductTest extends FeatureTestCase
     public function testPostCreateCategoryProductButNotSendCategoryProductName()
     {
         $result = $this->withSession($this->adminAccessRights)->post('/admin/buat_kategori_produk', [
-            'category_product_name' => 'Minyak sanco'
+            'category_product_name' => ''
         ]);
 
         $result->assertOK();
-        $result->assertRedirectTo('/admin/buat_kategori_produk');
-        $result->assertSessionHas('errors', [
-            'category_product_name' => '<small class="form-message form-message--danger">Nama Kategori Produk tidak boleh kosong!</small>'
-        ]);
+        $result->assertRedirect();
+        $result->assertSessionHas('errors');
+        $this->assertSame(
+            $_SESSION['errors']['category_product_name'],
+            '<small class="form-message form-message--danger">Nama Kategori Produk tidak boleh kosong!</small>'
+        );
 
         $criteria = [
             'category_product_name' => 'Minyak sanco'
