@@ -54,4 +54,15 @@ class BaseController extends Controller
         }
         return $messages;
     }
+
+    protected function hasErrors(array $fields): bool
+    {
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $this->validator->getErrors())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

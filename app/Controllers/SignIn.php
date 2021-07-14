@@ -11,18 +11,10 @@ class SignIn extends BaseController
 
     public function index()
     {
-        if ($this->request->getMethod() === 'post') {
-            return $this->signin();
-        }
+        $method = $this->request->getMethod();
 
-        return view('signin');
-    }
-
-    private function signIn()
-    {
-        $session = session();
-
-        if(!$this->validate([
+        // if method post and error not exists
+        if ($method === 'post' && $this->validate([
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required',
@@ -34,15 +26,30 @@ class SignIn extends BaseController
                 'errors' => $this->createIndoErrorMessages(['required'])
             ]
         ])) {
-            // set validation error messages to flash session
+            $username = $this->request->getPost('username', FILTER_SANITIZE_STRING);
+            $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
+
+            return $this->signin();
+        }
+
+        // if method = post and error exists
+        if ($method === 'post' && $this->hasErrors([
+            'username',
+            'password'
+        ])) {
+             // set validation error messages to flash session
             $session->setFlashData('errors', $this->addDelimiterMessages($this->validator->getErrors()));
             return redirect()->back()->withInput();
         }
 
-        $userModel = new UsersModel;
+        return view('signin');
+    }
 
-        $username = $this->request->getPost('username', FILTER_SANITIZE_STRING);
-        $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
+    private function signIn(string $username, string $password)
+    {
+        $session = session();
+
+        $userModel = new UsersModel;
         $userSignIn = $userModel->getUserSignIn($username);
 
         if($userSignIn !== null) {
